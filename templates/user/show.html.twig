@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateur
+	{{ user.firstName }}
+	{{ user.lastName }}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1>{{ user.firstName }}
+			{{ user.lastName }}</h1>
+
+		<div class="container col-lg-6 mt-lg-4 mx-auto pt-3 pb-3 text-center">
+			<div class="container mb-2">
+				<table class="table table-hover table-dark text-center">
+					<tbody>
+						<tr>
+							<th>Id</th>
+							<td>{{ user.id }}</td>
+						</tr>
+						<tr>
+							<th>Nom</th>
+							<td>{{ user.lastName }}</td>
+						</tr>
+						<tr>
+							<th>Prénom</th>
+							<td>{{ user.firstName }}</td>
+						</tr>
+						<tr>
+							<th>Email</th>
+							<td>{{ user.email }}</td>
+						</tr>
+						<tr>
+							<th>Adresse</th>
+							<td>{{ user.address }}</td>
+						</tr>
+						<tr>
+							<th>Téléphone</th>
+							<td>{{ user.phone }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div class="text-center">
+			<a class="btn btn-info" href="{{ path('app_home') }}">
+				<i class="bi bi-arrow-return-left me-2"></i>Retour à la liste</a>
+
+			<br><a class="btn btn-info mt-2 mb-2" href="{{ path('app_user_edit', {'id': user.id}) }}">
+				<i class="bi bi-gear me-2"></i>Modifier</a>
+
+			{{ include('user/_delete_form.html.twig') }}
+		</div>
+
+	</div>
+{% endblock %}

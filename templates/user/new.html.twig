@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvel utilisateur
+{% endblock %}
+
+{% block body %}
+	<h1>Nouvel utilisateur</h1>
+
+	{{ include('user/_form.html.twig') }}
+
+	<a class="btn" href="{{ path('app_home') }}">
+		<i class="bi bi-arrow-return-left me-2"></i>Retour à la liste</a>
+{% endblock %}

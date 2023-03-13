@@ -14,8 +14,7 @@ class HomeController extends AbstractController
     {
         $users = $userRepository->findAll();
 
-        return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
+        return $this->render('user/index.html.twig', [
             'users' => $users,
         ]);
     }
