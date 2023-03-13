@@ -6,8 +6,12 @@
 {% block body %}
 	<h1>Nouvel utilisateur</h1>
 
-	{{ include('user/_form.html.twig') }}
+	<div class="container col-lg-6 mt-lg-4 mx-auto pt-3 pb-3 text-center">
+		<div class="text-align">
+			{{ include('user/_form.html.twig') }}
 
-	<a class="btn" href="{{ path('app_home') }}">
-		<i class="bi bi-arrow-return-left me-2"></i>Retour à la liste</a>
+			<a class="btn mt-2" href="{{ path('app_home') }}">
+				<i class="bi bi-arrow-return-left me-2"></i>Retour à la liste</a>
+		</div>
+	</div>
 {% endblock %}
