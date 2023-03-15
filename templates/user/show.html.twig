@@ -28,7 +28,11 @@
 						</tr>
 						<tr>
 							<th>Âge</th>
-							<td>{{ age }}</td>
+							{% if age != 'NC' %}
+								<td>{{ age }}</td>
+							{% else %}
+								<td>(NC)</td>
+							{% endif %}
 						</tr>
 						<tr>
 							<th>Email</th>

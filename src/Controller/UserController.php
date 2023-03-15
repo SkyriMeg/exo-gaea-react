@@ -46,12 +46,20 @@ class UserController extends AbstractController
     public function show(AgeCalculatorService $ageCalculatorService, User $user, PropertyRepository $propertyRepository): Response
     {
         $birthday = $user->getBirthDate();
-        $age = $ageCalculatorService->getAge($birthday);
+        if ($birthday) {
+            $age = $ageCalculatorService->getAge($birthday);
+
+            return $this->render('user/show.html.twig', [
+                'user' => $user,
+                'properties' => $propertyRepository->findAll(),
+                'age' => $age,
+            ]);
+        }
 
         return $this->render('user/show.html.twig', [
             'user' => $user,
             'properties' => $propertyRepository->findAll(),
-            'age' => $age,
+            'age' => 'NC',
         ]);
     }
 

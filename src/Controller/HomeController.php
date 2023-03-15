@@ -20,14 +20,13 @@ class HomeController extends AbstractController
         //     $birthday = $user->getBirthDate();
         //     $age = $ageCalculatorService->getAge($birthday);
         // }
-        $birthday = $users[0]->getBirthDate();
-        $age = $ageCalculatorService->getAge($birthday);
+        // $birthday = $users[0]->getBirthDate();
+        // $age = $ageCalculatorService->getAge($birthday);
 
 
 
         return $this->render('user/index.html.twig', [
             'users' => $users,
-            'age' => $age,
         ]);
     }
 }

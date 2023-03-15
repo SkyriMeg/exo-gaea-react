@@ -14,7 +14,6 @@
 					<th scope="col">#</th>
 					<th scope="col">Nom</th>
 					<th scope="col">Prénom</th>
-					<th scope="col">Âge</th>
 					<th scope="col">Email</th>
 					<th scope="col">Adresse</th>
 					<th scope="col">Téléphone</th>
@@ -30,7 +29,6 @@
 					<td>
 						<a href="{{ path('app_user_show', {'id': user.id}) }}">{{ user.firstName }}</a>
 					</td>
-					<td>{{ age }}</td>
 					<td>{{ user.email }}</td>
 					<td>{{ user.address }}</td>
 					<td>{{ user.phone }}</td>
