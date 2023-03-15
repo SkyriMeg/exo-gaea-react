@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateur
+	{{ user.firstName }}
+	{{ user.lastName }}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1>{{ user.firstName }}
+			{{ user.lastName }}</h1>
+
+		<div class="container col-lg-6 mt-lg-4 mx-auto pt-3 pb-3">
+			<div class="container mb-2">
+				<table class="table table-hover table-dark">
+					<tbody>
+						<tr>
+							<th>Id</th>
+							<td>{{ user.id }}</td>
+						</tr>
+						<tr>
+							<th>Nom</th>
+							<td>{{ user.lastName }}</td>
+						</tr>
+						<tr>
+							<th>Prénom</th>
+							<td>{{ user.firstName }}</td>
+						</tr>
+						<tr>
+							<th>Âge</th>
+							<td>{{ age }}</td>
+						</tr>
+						<tr>
+							<th>Email</th>
+							<td>{{ user.email }}</td>
+						</tr>
+						<tr>
+							<th>Adresse</th>
+							<td>{{ user.address }}</td>
+						</tr>
+						<tr>
+							<th>Téléphone</th>
+							<td>{{ user.phone }}</td>
+						</tr>
+						<tr>
+							<th>Propriétés</th>
+							<td>
+								<ul>
+									{% for property in properties %}
+										{% if property.user.id == user.id %}
+											<li>{{ property.name }}
+												:
+												{{ property.type }}
+												(estimation :
+												{{ property.value }}
+												€)</li>
+										{% endif %}
+									{% endfor %}
+								</ul>
+							</td>
+						</tr>
+					</tbody>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div class="text-center">
+
+	<a class="btn btn-info mb-2" href="{{ path('app_user_edit', {'id': user.id}) }}">
+		<i class="bi bi-gear me-2"></i>Modifier utilisateur</a>
+
+	{{ include('user/_delete_form.html.twig') }}
+
+	<a class="btn mt-2" href="{{ path('app_home') }}"></div>
+	<i class="bi bi-arrow-return-left me-2"></i>Retour à la liste</a></div>{% endblock %}

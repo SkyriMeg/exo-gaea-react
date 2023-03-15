@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -27,6 +30,17 @@ class User
 
     #[ORM\Column(length: 40)]
     private ?string $phone = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Property::class)]
+    private Collection $property;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $birthDate = null;
+
+    public function __construct()
+    {
+        $this->property = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -89,6 +103,48 @@ class User
     public function setPhone(string $phone): self
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Property>
+     */
+    public function getProperty(): Collection
+    {
+        return $this->property;
+    }
+
+    public function addProperty(Property $property): self
+    {
+        if (!$this->property->contains($property)) {
+            $this->property->add($property);
+            $property->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProperty(Property $property): self
+    {
+        if ($this->property->removeElement($property)) {
+            // set the owning side to null (unless already changed)
+            if ($property->getUser() === $this) {
+                $property->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getBirthDate(): ?\DateTimeInterface
+    {
+        return $this->birthDate;
+    }
+
+    public function setBirthDate(\DateTimeInterface $birthDate): self
+    {
+        $this->birthDate = $birthDate;
 
         return $this;
     }

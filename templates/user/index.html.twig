@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="container">
+
+		<h1>Exercice pour Gaea21</h1>
+
+		<a class="btn btn-success mb-3" href="{{ path('app_user_new') }}">
+			<i class="bi bi-person-add me-2"></i>Nouvel utilisateur</a>
+
+		<table class="table table-hover table-dark text-center">
+			<thead>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Nom</th>
+					<th scope="col">Prénom</th>
+					<th scope="col">Âge</th>
+					<th scope="col">Email</th>
+					<th scope="col">Adresse</th>
+					<th scope="col">Téléphone</th>
+					<th scope="col"></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for user in users %}
+					<td>{{ user.id }}</td>
+					<td>
+						<a href="{{ path('app_user_show', {'id': user.id}) }}">{{ user.lastName }}</a>
+					</td>
+					<td>
+						<a href="{{ path('app_user_show', {'id': user.id}) }}">{{ user.firstName }}</a>
+					</td>
+					<td>{{ age }}</td>
+					<td>{{ user.email }}</td>
+					<td>{{ user.address }}</td>
+					<td>{{ user.phone }}</td>
+					<td class="d-flex justify-content-end">
+						<a class="btn btn-info me-3 mb-1" href="{{ path('app_user_show', {'id': user.id}) }}">
+							<i class="bi bi-info-circle me-2"></i>Infos</a>
+						{{ include('user/_delete_form.html.twig') }}</td>
+				</tbody>
+			</tbody>
+		</tr>
+	</tbody>
+{% else %}
+	<tr>
+		<td colspan="7">Aucun utilisateur trouvé</td>
+	</tr>
+{% endfor %}</tbody></tr></tbody></table></div>{% endblock %}
