@@ -2,23 +2,29 @@
 
 namespace App\Entity;
 
-use App\Repository\PropertyRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PropertyRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PropertyRepository::class)]
 class Property
 {
+
+    #[Groups(["users:read"])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(["users:read"])]
     #[ORM\Column(length: 40)]
     private ?string $name = null;
 
+    #[Groups(["users:read"])]
     #[ORM\Column]
     private ?float $value = null;
 
+    #[Groups(["users:read"])]
     #[ORM\Column(length: 40)]
     private ?string $type = null;
 
