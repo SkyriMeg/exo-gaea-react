@@ -11,8 +11,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 
-#[Route('/user')]
 class UserController extends AbstractController
 {
     // #[Route('/', name: 'app_user_index', methods: ['GET'])]
@@ -23,7 +26,56 @@ class UserController extends AbstractController
     //     ]);
     // }
 
-    #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
+    #[Route('/', name: 'home')]
+    public function index(): Response
+    {
+        return $this->render('default/index.html.twig');
+    }
+
+    #[Route('/users', name: 'users')]
+    public function getUsers(UserRepository $userRepository, PropertyRepository $propertyRepository, SerializerInterface $serializer)
+    {
+        // test users
+        // $users = [
+        //     [
+        //         'id' => 1,
+        //         'lastName' => 'Resu',
+        //         'firstName' => 'John',
+        //         'email' => 'j.r@orange.fr',
+        //         'address' => '3 rue de la Loupe',
+        //         'phone' => '06 48 56 34 32'
+        //     ],
+        //     [
+        //         'id' => 2,
+        //         'lastName' => 'Ures',
+        //         'firstName' => 'Mike',
+        //         'email' => 'm.u@orange.fr',
+        //         'address' => '5 rue du Tarn',
+        //         'phone' => '06 89 45 14 17'
+        //     ]
+        // ];
+
+        // $encoders = [new JsonEncoder()];
+        // $normalizers = [new ObjectNormalizer()];
+        // $serializer = new Serializer($normalizers, $encoders);
+
+        // $jsonContent = $serializer->serialize($users, 'json');
+
+        // $response->headers->set('Content-Type', 'application/json');
+        // $response->headers->set('Access-Control-Allow-Origin', '*');
+
+        // $response->setContent($jsonContent);
+
+        // $response->setContent(json_encode($users));
+
+        $users = $userRepository->findAll();
+
+        $response = $this->json($users, 200, [], ['groups' => 'users:read']);
+
+        return $response;
+    }
+
+    #[Route('user/new', name: 'app_user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, UserRepository $userRepository): Response
     {
         $user = new User();
@@ -42,7 +94,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
+    #[Route('user/{id}', name: 'app_user_show', methods: ['GET'])]
     public function show(AgeCalculatorService $ageCalculatorService, User $user, PropertyRepository $propertyRepository): Response
     {
         $birthday = $user->getBirthDate();
@@ -63,7 +115,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
+    #[Route('user/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, UserRepository $userRepository): Response
     {
         $form = $this->createForm(UserType::class, $user);
@@ -81,7 +133,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
+    #[Route('user/{id}', name: 'app_user_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, UserRepository $userRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {

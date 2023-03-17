@@ -10,4 +10,12 @@ import './styles/app.scss';
 
 // start the Stimulus application
 import './bootstrap';
-import './home';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Home from './components/Home';
+
+
+ReactDOM.render(
+    <Home />,
+    document.getElementById('root')
+);

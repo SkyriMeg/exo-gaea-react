@@ -2,38 +2,47 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User
 {
+    #[Groups(["users:read"])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(["users:read"])]
     #[ORM\Column(length: 40)]
     private ?string $lastName = null;
 
+    #[Groups(["users:read"])]
     #[ORM\Column(length: 40)]
     private ?string $firstName = null;
 
+    #[Groups(["users:read"])]
     #[ORM\Column(length: 40)]
     private ?string $email = null;
 
+    #[Groups(["users:read"])]
     #[ORM\Column(length: 40)]
     private ?string $address = null;
 
+    #[Groups(["users:read"])]
     #[ORM\Column(length: 40)]
     private ?string $phone = null;
 
+    #[Groups(["users:read"])]
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Property::class)]
     private Collection $property;
 
+    #[Groups(["users:read"])]
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $birthDate = null;
 
