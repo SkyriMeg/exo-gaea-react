@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios';
 
+
 function UserRow({ user }) {
 
     const deleteUser = () => {
@@ -15,23 +16,24 @@ function UserRow({ user }) {
     }
 
     //@TODO : lier le bouton à la page Show
-    const ShowUser = () => {
+    const showUser = () => {
         axios.get(`user/${user.id}`).then(response => {
             console.log(response);
         })
             .catch(error => {
                 console.error(error);
             });
+        window.location.href = "/user/" + user.id;
     }
 
     return <tr>
         <td>{user.id}</td>
-        <td><a href="/">{user.lastName}</a></td>
-        <td><a href="/">{user.firstName}</a></td>
+        <td className="userName" onClick={showUser}>{user.lastName}</td>
+        <td className="userName" onClick={showUser}>{user.firstName}</td>
         <td>{user.email}</td>
         <td>{user.address}</td>
         <td>{user.phone}</td>
-        <td><button className="btn btn-info" onClick={ShowUser}>Voir</button></td>
+        <td><button className="btn btn-info" onClick={showUser}>Voir</button></td>
         <td><button className="btn btn-danger" onClick={deleteUser}>Supprimer</button></td>
     </tr >;
 };

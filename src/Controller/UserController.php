@@ -100,7 +100,6 @@ class UserController extends AbstractController
         // $birthday = $user->getBirthDate();
         // if ($birthday) {
         //     $age = $ageCalculatorService->getAge($birthday);
-        //     //@TODO : user->getProperty()
 
         //     return $this->render('user/show.html.twig', [
         //         'user' => $user,
