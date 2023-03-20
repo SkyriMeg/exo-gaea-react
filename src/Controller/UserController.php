@@ -26,7 +26,7 @@ class UserController extends AbstractController
     //     ]);
     // }
 
-    #[Route('/', name: 'home')]
+    #[Route('/', name: 'app_home')]
     public function index(): Response
     {
         return $this->render('default/index.html.twig');
@@ -95,23 +95,26 @@ class UserController extends AbstractController
     }
 
     #[Route('user/{id}', name: 'app_user_show', methods: ['GET'])]
-    public function show(AgeCalculatorService $ageCalculatorService, User $user, PropertyRepository $propertyRepository): Response
+    public function show(AgeCalculatorService $ageCalculatorService, User $user): Response
     {
-        $birthday = $user->getBirthDate();
-        if ($birthday) {
-            $age = $ageCalculatorService->getAge($birthday);
+        // $birthday = $user->getBirthDate();
+        // if ($birthday) {
+        //     $age = $ageCalculatorService->getAge($birthday);
+        //     //@TODO : user->getProperty()
 
-            return $this->render('user/show.html.twig', [
-                'user' => $user,
-                'properties' => $propertyRepository->findAll(),
-                'age' => $age,
-            ]);
-        }
+        //     return $this->render('user/show.html.twig', [
+        //         'user' => $user,
+        //         'properties' => $user->getProperty(),
+        //         'age' => $age,
+        //     ]);
+        // }
+
+        $age = $ageCalculatorService->getAgeByUser($user);
 
         return $this->render('user/show.html.twig', [
             'user' => $user,
-            'properties' => $propertyRepository->findAll(),
-            'age' => 'NC',
+            'properties' => $user->getProperty(),
+            'age' => $age,
         ]);
     }
 
@@ -133,13 +136,12 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('user/{id}', name: 'app_user_delete', methods: ['POST'])]
+    #[Route('user/{id}', name: 'app_user_delete', methods: ['DELETE'])]
     public function delete(Request $request, User $user, UserRepository $userRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
-            $userRepository->remove($user, true);
-        }
-
+        // if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
+        $userRepository->remove($user, true);
+        // }
         return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
     }
 }

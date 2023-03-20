@@ -39,12 +39,15 @@ class User
     private ?string $phone = null;
 
     #[Groups(["users:read"])]
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Property::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Property::class, cascade: ['remove'])]
     private Collection $property;
 
     #[Groups(["users:read"])]
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $birthDate = null;
+
+    #[Groups(["users:read"])]
+    private ?string $age = null;
 
     public function __construct()
     {
@@ -154,6 +157,26 @@ class User
     public function setBirthDate(\DateTimeInterface $birthDate): self
     {
         $this->birthDate = $birthDate;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of age
+     */
+    public function getAge()
+    {
+        return $this->age;
+    }
+
+    /**
+     * Set the value of age
+     *
+     * @return  self
+     */
+    public function setAge($age)
+    {
+        $this->age = $age;
 
         return $this;
     }
