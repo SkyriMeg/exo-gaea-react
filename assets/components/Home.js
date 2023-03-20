@@ -2,6 +2,28 @@ import React, { Component } from "react";
 import axios from 'axios';
 
 function UserRow({ user }) {
+
+    const deleteUser = () => {
+        axios.delete(`user/${user.id}`)
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        window.location.reload(false);
+    }
+
+    //@TODO : lier le bouton à la page Show
+    const ShowUser = () => {
+        axios.get(`user/${user.id}`).then(response => {
+            console.log(response);
+        })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
     return <tr>
         <td>{user.id}</td>
         <td><a href="/">{user.lastName}</a></td>
@@ -9,9 +31,10 @@ function UserRow({ user }) {
         <td>{user.email}</td>
         <td>{user.address}</td>
         <td>{user.phone}</td>
-        <td><button className="btn btn-danger">Supprimer</button></td>
-    </tr>
-}
+        <td><button className="btn btn-info" onClick={ShowUser}>Voir</button></td>
+        <td><button className="btn btn-danger" onClick={deleteUser}>Supprimer</button></td>
+    </tr >;
+};
 
 class Home extends Component {
     constructor() {
@@ -63,6 +86,8 @@ class Home extends Component {
                             </th>
                             <th scope="col">
                                 Téléphone
+                            </th>
+                            <th scope="col">
                             </th>
                             <th scope="col">
                             </th>

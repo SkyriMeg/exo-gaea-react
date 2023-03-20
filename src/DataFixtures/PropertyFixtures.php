@@ -17,6 +17,12 @@ class PropertyFixtures extends Fixture implements DependentFixtureInterface
             'user' => 'user_0',
         ],
         [
+            'name' => 'Batarang',
+            'value' => '950',
+            'type' => 'arme',
+            'user' => 'user_0',
+        ],
+        [
             'name' => 'Lance de Léonidas',
             'value' => '450000',
             'type' => 'arme',
