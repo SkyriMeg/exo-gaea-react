@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import axios from 'axios';
 
+//REACT MODALE
+
+
+
+//REACT TABLEAU HOME + SHOW
 
 function UserRow({ user }) {
 
@@ -15,7 +20,6 @@ function UserRow({ user }) {
         window.location.reload(false);
     }
 
-    //@TODO : lier le bouton à la page Show
     const showUser = () => {
         axios.get(`user/${user.id}`).then(response => {
             console.log(response);

@@ -3,5 +3,10 @@
 {% block body %}
 	<div class="container text-center m-3">
 		<div id="root"></div>
+		<div {{ stimulus_controller('modal-form') }}>
+			<button class="btn btn-primary btn-sm" data-action="modal-form#openModal">
+				<i class="bi bi-person-add me-2"></i>Nouvel utilisateur</button>
+			{{ include('_modal.html.twig') }}
+		</div>
 	</div>
 {% endblock %}
