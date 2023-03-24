@@ -88,7 +88,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('user/new.html.twig', [
+        return $this->renderForm('_modal.html.twig', [
             'user' => $user,
             'form' => $form,
         ]);
@@ -97,17 +97,6 @@ class UserController extends AbstractController
     #[Route('user/{id}', name: 'app_user_show', methods: ['GET'])]
     public function show(AgeCalculatorService $ageCalculatorService, User $user): Response
     {
-        // $birthday = $user->getBirthDate();
-        // if ($birthday) {
-        //     $age = $ageCalculatorService->getAge($birthday);
-
-        //     return $this->render('user/show.html.twig', [
-        //         'user' => $user,
-        //         'properties' => $user->getProperty(),
-        //         'age' => $age,
-        //     ]);
-        // }
-
         $age = $ageCalculatorService->getAgeByUser($user);
 
         return $this->render('user/show.html.twig', [

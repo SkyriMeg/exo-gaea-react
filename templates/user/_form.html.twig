@@ -1,8 +1,6 @@
-{% if form is defined %}
-	{{ form_start(form) }}
-	{{ form_widget(form) }}
-	<button class="btn btn-success">
-		<i class="bi bi-check-lg me-2"></i>
-		{{ button_label|default('Ajouter') }}</button>
-	{{ form_end(form) }}
-{% endif %}
+{{ form_start(form) }}
+{{ form_widget(form) }}
+<button class="btn btn-success">
+	<i class="bi bi-check-lg me-2"></i>
+	{{ button_label|default('Ajouter') }}</button>
+{{ form_end(form) }}

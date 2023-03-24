@@ -1,9 +1,19 @@
 import React, { Component } from "react";
 import axios from 'axios';
+import PortalExample from "./PortalExample";
+import ModalContent from "./ModalContent";
 
-//REACT MODALE
+//BOUTON MODALE - DOC REACT
 
-
+function Portal() {
+    return (
+        <>
+            <div className="clipping-container">
+                <PortalExample />
+            </div>
+        </>
+    );
+}
 
 //REACT TABLEAU HOME + SHOW
 
@@ -41,6 +51,7 @@ function UserRow({ user }) {
         <td><button className="btn btn-danger" onClick={deleteUser}>Supprimer</button></td>
     </tr >;
 };
+
 
 class Home extends Component {
     constructor() {
@@ -103,6 +114,7 @@ class Home extends Component {
                         {rows}
                     </tbody>
                 </table>
+                <Portal />
             </div>
         )
     }

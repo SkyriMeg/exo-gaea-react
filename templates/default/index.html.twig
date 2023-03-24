@@ -3,10 +3,14 @@
 {% block body %}
 	<div class="container text-center m-3">
 		<div id="root"></div>
-		<div {{ stimulus_controller('modal-form') }}>
-			<button class="btn btn-primary btn-sm" data-action="modal-form#openModal">
-				<i class="bi bi-person-add me-2"></i>Nouvel utilisateur</button>
-			{{ include('_modal.html.twig') }}
-		</div>
+		{# BOUTON POUR MODALE JS MAIS NON FONCTIONNEL #}
+	{# <div {{ stimulus_controller('modal-form') }}>
+				<button class="btn btn-primary mt-2" data-action="modal-form#openModal">
+					<i class="bi bi-person-add me-2"></i>Bouton Twig via contrôleur JS</button> #}
+
+		{# BOUTON POUR MODALE TWIG AVEC JS : #}
+		{# <button class="d-block mt-5 btn btn-primary mx-auto" data-bs-toggle="modal" data-bs-target="#modal1">
+						Bouton vers Twig</button>
+					{{ include('_modal.html.twig') }} #}
 	</div>
-{% endblock %}
+</div>{% endblock %}
