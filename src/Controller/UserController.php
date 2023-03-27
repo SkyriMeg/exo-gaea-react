@@ -7,6 +7,7 @@ use App\Form\UserType;
 use App\Repository\PropertyRepository;
 use App\Repository\UserRepository;
 use App\Services\AgeCalculatorService;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
+
 
 class UserController extends AbstractController
 {
@@ -33,7 +35,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/users', name: 'users')]
-    public function getUsers(UserRepository $userRepository, PropertyRepository $propertyRepository, SerializerInterface $serializer)
+    public function getUsers(UserRepository $userRepository, AgeCalculatorService $ageCalculatorService, SerializerInterface $serializer)
     {
         // test users
         // $users = [
@@ -70,6 +72,10 @@ class UserController extends AbstractController
 
         $users = $userRepository->findAll();
 
+        foreach ($users as $user) {
+            $user->setAge($ageCalculatorService->getAgeByUser($user));
+        }
+
         $response = $this->json($users, 200, [], ['groups' => 'users:read']);
 
         return $response;
@@ -78,20 +84,44 @@ class UserController extends AbstractController
     #[Route('user/new', name: 'app_user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, UserRepository $userRepository): Response
     {
-        $user = new User();
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $userRepository->save($user, true);
+        $data = $request->getContent();
+        $data = json_decode($data, true);
 
-            return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
-        }
+        $birthDate = $data["birthDate"];
+        $user = $data["userJson"];
 
-        return $this->renderForm('_modal.html.twig', [
-            'user' => $user,
-            'form' => $form,
-        ]);
+        $encoders = [new JsonEncoder()];
+        $normalizer = [new ObjectNormalizer()];
+        $serializer = new Serializer($normalizer, $encoders);
+
+        $user = $serializer->deserialize($user, User::class, 'json');
+        $dateTimeBirthDate = new \DateTime($birthDate);
+
+        $user->setBirthDate($dateTimeBirthDate);
+
+        $userRepository->save($user, true);
+
+        // return $this->json($user);
+        return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+
+
+        // ******* CODE SYMFONY ******* //
+
+        // $user = new User();
+        // $form = $this->createForm(UserType::class, $user);
+        // $form->handleRequest($request);
+
+        // if ($form->isSubmitted() && $form->isValid()) {
+        //     $userRepository->save($user, true);
+
+        //     return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+        // }
+
+        // return $this->renderForm('_modal.html.twig', [
+        //     'user' => $user,
+        //     'form' => $form,
+        // ]);
     }
 
     #[Route('user/{id}', name: 'app_user_show', methods: ['GET'])]
