@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import axios from 'axios';
+import PortalExample from "./PortalExample";
 
+//REACT TABLEAU HOME + SHOW
 
 function UserRow({ user }) {
 
@@ -15,7 +17,6 @@ function UserRow({ user }) {
         window.location.reload(false);
     }
 
-    //@TODO : lier le bouton à la page Show
     const showUser = () => {
         axios.get(`user/${user.id}`).then(response => {
             console.log(response);
@@ -30,6 +31,7 @@ function UserRow({ user }) {
         <td>{user.id}</td>
         <td className="userName" onClick={showUser}>{user.lastName}</td>
         <td className="userName" onClick={showUser}>{user.firstName}</td>
+        <td>{user.age}</td>
         <td>{user.email}</td>
         <td>{user.address}</td>
         <td>{user.phone}</td>
@@ -38,10 +40,13 @@ function UserRow({ user }) {
     </tr >;
 };
 
+
 class Home extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = { users: [], loading: true };
+        this.handleClick = this.handleClick.bind(this);
+        this.form = React.createRef();
     }
 
     componentDidMount() {
@@ -54,8 +59,34 @@ class Home extends Component {
         })
     }
 
+    handleClick() {
+        const lastName = this.form.current.elements.lastName.value;
+        const firstName = this.form.current.elements.firstName.value;
+        const birthDate = this.form.current.elements.birthDate.value;
+        const email = this.form.current.elements.email.value;
+        const address = this.form.current.elements.address.value;
+        const phone = this.form.current.elements.phone.value;
+        const user = {
+            lastName: lastName,
+            firstName: firstName,
+            email: email,
+            address: address,
+            phone: phone
+        };
+
+        const userJson = JSON.stringify(user)
+
+        console.log(user)
+
+        axios.post('/user/new', { userJson: userJson, birthDate: birthDate }).then(function (response) {
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error);
+        })
+    }
+
+
     render() {
-        const loading = this.state.loading
         const users = this.state.users
         const rows = []
 
@@ -81,6 +112,9 @@ class Home extends Component {
                                 Prénom
                             </th>
                             <th scope="col">
+                                Âge
+                            </th>
+                            <th scope="col">
                                 Email
                             </th>
                             <th scope="col">
@@ -99,6 +133,10 @@ class Home extends Component {
                         {rows}
                     </tbody>
                 </table>
+                <PortalExample
+                    handleClick={this.handleClick}
+                    ref={this.form}
+                />
             </div>
         )
     }

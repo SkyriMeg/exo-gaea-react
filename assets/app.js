@@ -9,13 +9,18 @@
 import './styles/app.scss';
 
 // start the Stimulus application
-import './bootstrap';
+// import './bootstrap';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import Home from './components/Home';
+import { StrictMode } from 'react';
+import './styles/modal.scss';
 
 
-ReactDOM.render(
-    <Home />,
-    document.getElementById('root')
+const root = createRoot(document.getElementById('root'));
+root.render(
+    <StrictMode>
+        <Home />
+    </StrictMode>
 );
